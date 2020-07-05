@@ -1,0 +1,156 @@
+<form id="benderform" class="form-horizontal" method="POST" action="http:\\127.0.0.1/UNF/hs/exchange/order/test">
+  <fieldset>
+
+    <!-- Form Name -->
+    <legend>Оформление заказа</legend>
+
+    <!-- Multiple Radios -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="radios"></label>
+      <div class="col-md-4">
+        <div class="radio">
+          <label for="radios-0">
+            <input type="radio" name="radios" id="radios-0" value="1" checked="checked">
+            Юридическое лицо
+          </label>
+        </div>
+        <div class="radio">
+          <label for="radios-1">
+            <input type="radio" name="radios" id="radios-1" value="2">
+            Физическое лицо
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textinput">Наименование организации</label>
+      <div class="col-md-4">
+        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textinput">ФИО</label>
+      <div class="col-md-4">
+        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textinput">Телефон</label>
+      <div class="col-md-4">
+        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textinput">E-mail</label>
+      <div class="col-md-4">
+        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textinput">Тип техники</label>
+      <div class="col-md-4">
+        <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md">
+
+      </div>
+    </div>
+
+    <!-- Textarea -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="textarea">Описание проблемы</label>
+      <div class="col-md-4">
+        <textarea class="form-control" id="textarea" name="textarea"></textarea>
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="singlebutton"></label>
+      <div class="col-md-4">
+        <button id="singlebutton" name="singlebutton" class="btn btn-success">Отправить заказ</button>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+
+
+<script>
+  document.getElementById('benderform').addEventListener('submit', submitForm);
+
+
+function submitForm(event) {
+    // Отменяем стандартное поведение браузера с отправкой формы
+    event.preventDefault();
+
+    // event.target — это HTML-элемент form
+    let formData = new FormData(event.target);
+
+    // Собираем данные формы в объект
+    let obj = {};
+    formData.forEach((value, key) => obj[key] = value);
+
+    // Собираем запрос к серверу
+    let request = new Request(event.target.action, {
+        method: 'POST',
+        body: JSON.stringify(obj),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    // Отправляем (асинхронно!)
+    fetch(request).then(
+        function(response) {
+            // Запрос успешно выполнен
+            console.log(response);
+            // return response.json() и так далее см. документацию
+        },
+        function(error) {
+            // Запрос не получилось отправить
+            console.error(error);
+        }
+    );
+
+    // Код после fetch выполнится ПЕРЕД получением ответа
+    // на запрос, потому что запрос выполняется асинхронно,
+    // отдельно от основного кода
+    console.log('Запрос отправляется');
+}
+
+</script>
+
+<script>
+  /*document.getElementById('benderform').addEventListener('submit', submitForm);
+
+  function submitForm(event) {
+    var object = {};
+    var formData = new FormData(document.forms[0]);
+
+    formData.forEach(function (value, key) {
+      object[key] = value;
+    });
+    var json = JSON.stringify(object);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", event.target.action, true)
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+    // Отсылаем объект в формате JSON и с Content-Type application/json
+    xhr.send(json);
+  }
+  */
+</script>
